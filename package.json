@@ -1,0 +1,15 @@
+{
+  "name": "ddns-script",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/kevvvinreed/ddns-script.git",
+  "author": "kevvvinreed <33916889+kevvvinreed@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./index.js",
+    "env-linux": "export $(cat .env | xargs) && env",
+    "start-linux": "export $(cat .env | xargs) && npm start",
+    "env-windows": "(for /F \"tokens=*\" %i in (.env) do set %i)",
+    "start-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && npm start"
+  }
+}
