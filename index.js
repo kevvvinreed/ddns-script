@@ -68,6 +68,11 @@ const main = async () => {
             data: `Matching A Record '${record_name}' not found`,
           };
         }
+      } else {
+        return {
+          error: true,
+          data,
+        };
       }
     } catch (err) {
       return {
@@ -104,19 +109,33 @@ const main = async () => {
     }
   };
 
-  const ipv4_res = await get_public_ipv4();
-  // If an error occurs while grabbing the public IPv4 log message and return
-  if (ipv4_res.error) {
-    console.error(ipv4_res.data);
-    return;
-  }
+  const run = async () => {
+    const ipv4_res = await get_public_ipv4();
+    // If an error occurs while grabbing the public IPv4 log message and return
+    if (!ipv4_res) {
+      console.error('Uncaught exception, no IPv4 response.');
+      return;
+    }
+    if (ipv4_res.error) {
+      console.error(ipv4_res.data);
+      return;
+    }
 
-  const update_ip_res = await update_ip(ipv4_res.data);
-  if (update_ip_res.error) {
-    console.error(update_ip_res.data);
-    return;
-  }
+    const update_ip_res = await update_ip(ipv4_res.data);
 
-  console.log(update_ip_res.data);
+    if (!update_ip_res) {
+      console.error('Uncaught exception, no record update response.');
+      return;
+    }
+    if (update_ip_res && update_ip_res.error) {
+      console.error(update_ip_res.data);
+      return;
+    }
+
+    console.log(update_ip_res.data);
+  };
+
+  // console.log(`process.platform: ${process.platform}`);
+  run();
 };
 main();
