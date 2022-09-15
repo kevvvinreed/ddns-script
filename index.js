@@ -1,9 +1,21 @@
 const main = async () => {
-  const auth_email = process.env.auth_email; // The email used to login 'https://dash.cloudflare.com'
+  const auth_email =
+    process.platform !== 'win32'
+      ? process.env.auth_email
+      : process.env.npm_package_auth_email; // The email used to login 'https://dash.cloudflare.com'
   const auth_method = 'global'; // Set to "global" for Global API Key or "token" for Scoped API Token
-  const auth_key = process.env.auth_key; // Your API Token or Global API Key
-  const zone_identifier = process.env.zone_identifier; // Can be found in the "Overview" tab of your domain
-  const record_name = process.env.record_name; // Which record you want to be synced
+  const auth_key =
+    process.platform !== 'win32'
+      ? process.env.auth_key
+      : process.env.npm_package_auth_key; // Your API Token or Global API Key
+  const zone_identifier =
+    process.platform !== 'win32'
+      ? process.env.zone_identifier
+      : process.env.npm_package_zone_identifier; // Can be found in the "Overview" tab of your domain
+  const record_name =
+    process.platform !== 'win32'
+      ? process.env.record_name
+      : process.env.npm_package_record_name; // Which record you want to be synced
   const ttl = '3600'; // Set the DNS TTL (seconds)
   const proxy = true; // Set the proxy to true or false
 
